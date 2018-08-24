@@ -19,5 +19,13 @@ module.exports.iniciaChat = function(application, req, res){
         return;
     }
 
+    /**
+     * Recupera o io através da instância do Express usando o método get
+     */
+    application.get('io').emit('msgCliente', {
+        apelido: dadosForm.apelido,
+        mensagem: 'Acabou de entrar no chat'
+    });
+
     res.render('chat');
 }

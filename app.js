@@ -11,6 +11,10 @@ const server = app.listen(8080, function(){
 
 //O socket.io irá usar a mesma porta que a aplicação, ou seja, ele responde 2 protocolos diferentes na mesma porta
 const io = require('socket.io').listen(server);
+/**
+ * É setado a instancia do socket.io dentro do objeto do express
+ */
+app.set('io', io);
 
 /**
 * Criar a coneção por websocket
