@@ -12,8 +12,8 @@ const server = app.listen(8080, function(){
 //O socket.io irá usar a mesma porta que a aplicação, ou seja, ele responde 2 protocolos diferentes na mesma porta
 const io = require('socket.io').listen(server);
 /**
- * É setado a instancia do socket.io dentro do objeto do express
- */
+* É setado a instancia do socket.io dentro do objeto do express
+*/
 app.set('io', io);
 
 /**
@@ -25,5 +25,17 @@ io.on('connection', (socket) => {
     
     socket.on('disconnect',() => {
         console.log('User disconnected');
+    });
+    
+    socket.on('msgParaServidor', (data)=>{
+        socket.emit('msgCliente',{
+            apelido: data.apelido,
+            mensagem: data.mensagem
+        });
+        
+        socket.broadcast.emit('msgCliente',{
+            apelido: data.apelido,
+            mensagem: data.mensagem
+        });
     });
 });
