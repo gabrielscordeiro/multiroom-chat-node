@@ -27,7 +27,8 @@ io.on('connection', (socket) => {
         console.log('User disconnected');
     });
     
-    socket.on('msgParaServidor', (data)=>{
+    socket.on('msgParaServidor', (data) => {
+        /** Diálogo */
         socket.emit('msgCliente',{
             apelido: data.apelido,
             mensagem: data.mensagem
@@ -37,5 +38,18 @@ io.on('connection', (socket) => {
             apelido: data.apelido,
             mensagem: data.mensagem
         });
+        
+        
+        if(parseInt(data.apelido_atualizado_nos_clientes) == 0){
+            
+            /** Participantes */
+            socket.emit('participantesParaCliente',{
+                apelido: data.apelido
+            });
+            
+            socket.broadcast.emit('participantesParaCliente',{
+                apelido: data.apelido
+            });
+        }
     });
 });

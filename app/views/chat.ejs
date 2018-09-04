@@ -71,7 +71,7 @@
 		<div class="container">
             <div class="row conversa" id="conversa">
 				<div class="col-md-1"></div>
-				<div class="col-md-10" id="dialogos">
+				<div class="col-md-10" id="dialogos"></div>
 					
 				<div class="col-md-1"></div>
                 
@@ -79,24 +79,8 @@
 			
 			<div class="row participantes" id="participantes" style="display:none">
 				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Jorge
-					</span>
-					
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						José
-					</span>
-					
-					<span class="participante">
-						<img src="images/ico_usuario.png" />
-						Fernando
-					</span>
-				</div>
+				<div class="col-md-10" id="pessoas"></div>
 				<div class="col-md-1"></div>
-                
             </div>
         </div>
 		
@@ -107,6 +91,7 @@
 						<div class="input-group">
 							<input type="text" class="form-control" placeholder="Mensagem" id="mensagem">
 							<input type="hidden" value="<%= dadosForm.apelido %>" id="apelido">
+							<input type="hidden" value="0" id="apelido_atualizado_nos_clientes">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button" id="enviar_mensagem">></button>
 							</span>
@@ -127,8 +112,11 @@
 			$('#enviar_mensagem').on('click', function(){
 				socket.emit('msgParaServidor',{
 					apelido: $('#apelido').val(),
-					mensagem: $('#mensagem').val()
+					mensagem: $('#mensagem').val(),
+					apelido_atualizado_nos_clientes: $('#apelido_atualizado_nos_clientes').val()
 				});
+
+				$('#apelido_atualizado_nos_clientes').val(1)
 
 				$('#mensagem').val('');
 			});
@@ -142,6 +130,19 @@
 				html += '</div>';
 
 				$('#dialogos').append(html);
+
+				window.scrollTo(document.body.scrollHeight);
+			});
+
+			socket.on('participantesParaCliente', function(data){
+				var html = '';
+
+				html += '<span class="participante">';
+					html +=  '<img src="images/ico_usuario.png"/>';
+					html +=  data.apelido;
+				html += '</span>';
+
+				$('#pessoas').append(html);
 			});
 		</script>
 	</body>
