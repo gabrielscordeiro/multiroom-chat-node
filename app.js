@@ -5,7 +5,7 @@ const app = require('./config/server');
 * O server é colocado em uma variável pois teremos que atribuir ele para o Socket.io
 */
 
-const server = app.listen(8080, function(){
+const server = app.listen(5900, function(){
     console.log('Servidor online');
 });
 
